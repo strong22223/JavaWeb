@@ -1,0 +1,10 @@
+com\Strong\web\addBrandServlet.class
+com\Strong\web\updateServlet.class
+com\Strong\web\selectByIdServlet.class
+com\Strong\web\deleteByIdServlet.class
+com\Strong\mapper\BrandMapper.class
+com\Strong\service\BrandService.class
+com\Strong\util\SqlSessionFactoryUtils.class
+com\Strong\util\InitServlet.class
+com\Strong\pojo\Brand.class
+com\Strong\web\selectAllServlet.class

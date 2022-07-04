@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Strong.mapper.BrandMapper">
+    <!--使用resultMap解决数据库 和 java 属性名称不匹配的方式-->
+    <resultMap id="brandResultMap" type="Brand">
+
+        <result column="brand_name" property="brandName"></result>
+
+        <result column="company_name" property="companyName"></result>
+
+    </resultMap>
+
+
+</mapper>
