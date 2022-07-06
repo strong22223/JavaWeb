@@ -13,11 +13,13 @@
     <title>Title</title>
 </head>
 <body>
+
+<h1>${user.username},欢迎你!</h1>
 <%--事件绑定--%>
 <input type="button" value="新增" id="addBrand"><br>
 
 <hr>
-<table border="1" cellspacing="0" width="900" >
+<table border="1" cellspacing="0" width="900">
     <tr>
         <th>序号</th>
         <th>品牌名称</th>
@@ -46,7 +48,8 @@
                 <td>禁用</td>
             </c:if>
 
-            <td><a href="/xxx/selectByIdServlet?id=${brand.id}">修改 </a> <a href="/xxx/deleteByIdServlet?id=${brand.id}">删除</a></td>
+            <td><a href="/xxx/selectByIdServlet?id=${brand.id}">修改 </a> <a href="/xxx/deleteByIdServlet?id=${brand.id}">删除</a>
+            </td>
         </tr>
 
 
@@ -54,9 +57,9 @@
 </table>
 <%--利用JS来跳转页面--%>
 <script>
-    document.getElementById("addBrand").onclick=function(){
+    document.getElementById("addBrand").onclick = function () {
 
-        location.href="/xxx/addBrand.jsp";
+        location.href = "/xxx/addBrand.jsp";
     }
 
 </script>
