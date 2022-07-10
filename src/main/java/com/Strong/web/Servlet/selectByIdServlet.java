@@ -1,5 +1,6 @@
-package com.Strong.web;
+package com.Strong.web.Servlet;
 
+import com.Strong.pojo.Brand;
 import com.Strong.service.BrandService;
 
 import javax.servlet.ServletException;
@@ -9,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/deleteByIdServlet")
-public class deleteByIdServlet extends HttpServlet {
+@WebServlet(value = "/selectByIdServlet")
+public class selectByIdServlet extends HttpServlet {
     private BrandService service = new BrandService();
 
     @Override
@@ -18,11 +19,12 @@ public class deleteByIdServlet extends HttpServlet {
         //接收id
         String id = request.getParameter("id");
 
-        //删除数据
-        service.deleteById(Integer.parseInt(id));
+        //查询数据
+        Brand brand = service.selectById(Integer.parseInt(id));
 
+        request .setAttribute("brand" ,brand);
 
-        request.getRequestDispatcher("/delete.jsp").forward(request,response);
+        request.getRequestDispatcher("/update.jsp").forward(request,response);
 
 
     }
