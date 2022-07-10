@@ -1,31 +1,27 @@
-package com.Strong.web;
+package com.Strong.web.Servlet;
 
-import com.Strong.pojo.Brand;
-import com.Strong.service.BrandService;
+import com.Strong.util.CheckCodeUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.OutputStream;
 
-@WebServlet(value = "/selectByIdServlet")
-public class selectByIdServlet extends HttpServlet {
-    private BrandService service = new BrandService();
+@WebServlet(value = "/checkCodeServlet")
+public class CheckCodeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //接收id
-        String id = request.getParameter("id");
+        OutputStream outputStream = response.getOutputStream();
 
-        //查询数据
-        Brand brand = service.selectById(Integer.parseInt(id));
 
-        request .setAttribute("brand" ,brand);
-
-        request.getRequestDispatcher("/update.jsp").forward(request,response);
-
+        String a = CheckCodeUtil.outputVerifyImage(200, 50, outputStream, 4);
+        HttpSession session = request.getSession();
+        session.setAttribute("checkCodeGen", a);
 
     }
 

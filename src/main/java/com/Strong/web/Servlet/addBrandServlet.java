@@ -1,4 +1,4 @@
-package com.Strong.web;
+package com.Strong.web.Servlet;
 
 import com.Strong.pojo.Brand;
 import com.Strong.service.BrandService;
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/updateServlet")
-public class updateServlet extends HttpServlet {
+@WebServlet(value = "/addBrandServlet")
+public class addBrandServlet extends HttpServlet {
     private BrandService service = new BrandService();
 
     @Override
@@ -20,7 +20,7 @@ public class updateServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
 
         //1.接收单 提交的数据,并且封装为一个Brand 的对象
-        String id = request.getParameter("id");
+
         String brandName = request.getParameter("brandName");
 //        brandName = new String(brandName.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         String companyName = request.getParameter("companyName");
@@ -31,7 +31,8 @@ public class updateServlet extends HttpServlet {
 
         //2.创建Brand的对象并且封装数据
         Brand brand = new Brand();
-        brand.setId(Integer.parseInt(id));
+
+
         brand.setBrandName(brandName);
         brand.setCompanyName(companyName);
         brand.setOrdered(Integer.parseInt(ordered));
@@ -39,7 +40,7 @@ public class updateServlet extends HttpServlet {
         brand.setStatus(Integer.parseInt(status));
 
         //3.调用service的方法来添加
-        service.update(brand);
+        service.addBrand(brand);
 
         //4.请求转发到查询所有的Servlet
         request.getRequestDispatcher("/selectAllServlet").forward(request,response);

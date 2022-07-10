@@ -1,8 +1,7 @@
-package com.Strong.web;
+package com.Strong.web.Servlet;
 
 import com.Strong.pojo.Brand;
 import com.Strong.service.BrandService;
-import com.Strong.util.InitServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

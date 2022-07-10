@@ -1,4 +1,4 @@
-package com.Strong.web;
+package com.Strong.web.Servlet;
 
 import com.Strong.pojo.User;
 import com.Strong.service.UserService;

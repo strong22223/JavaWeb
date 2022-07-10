@@ -1,4 +1,4 @@
-package com.Strong.web;
+package com.Strong.web.Servlet;
 
 import com.Strong.pojo.User;
 import com.Strong.service.UserService;
@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(value = "/registerServlet")
@@ -19,11 +20,25 @@ public class RegisterServlet extends HttpServlet {
         //获取jsp页面传过来的数据源
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        //获取用户提交的验证码
+        String checkCode = request.getParameter("checkCode");
+
 
         //封装为一个对象
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
+
+        //
+        HttpSession session = request.getSession();
+        String checkCodeGen = (String) session.getAttribute("checkCodeGen");
+
+        if (!checkCodeGen.equalsIgnoreCase(checkCode)) {
+            request.setAttribute("register_msg", "验证码错误");
+            request.getRequestDispatcher("/register.jsp").forward(request, response);
+
+            return;
+        }
 
         //调用service方法
         boolean add = service.add(user);
