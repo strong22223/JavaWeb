@@ -48,4 +48,21 @@ public class UserService {
         return u == null;
     }
 
+    /**
+     * 校验注册,判断是否为空
+     *
+     * @param username
+     * @return
+     */
+    public boolean register(String username) {
+        //1.获取sqlSession
+        SqlSession sqlSession = factory.openSession();
+        //2.获取BrandMapper
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        //3.调用方法
+        User u = mapper.selectByUsername(username);
+
+        sqlSession.close();
+        return u == null;
+    }
 }
