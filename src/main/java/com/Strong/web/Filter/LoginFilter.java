@@ -13,7 +13,7 @@
 //        HttpServletRequest req = (HttpServletRequest) request;
 //        //判断访问的路径是否与 登录 注册 相关
 //
-//        String[] urls = new String[]{"login.jsp", "/imgs/", "/css/", "/loginServlet", "/registerServlet", "register.jsp", "/checkCodeServlet"
+//        String[] urls = new String[]{"login.jsp", "/imgs/", "/css/", "/loginServlet", "/registerServlet", "register.html.jsp", "/checkCodeServlet"
 //        ,"/AjaxServlet"};
 //        //获取访问的路径
 //        String requestURL = req.getRequestURL().toString();

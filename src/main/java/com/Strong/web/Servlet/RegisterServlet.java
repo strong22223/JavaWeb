@@ -35,7 +35,7 @@ public class RegisterServlet extends HttpServlet {
 
         if (!checkCodeGen.equalsIgnoreCase(checkCode)) {
             request.setAttribute("register_msg", "验证码错误");
-            request.getRequestDispatcher("/register.jsp").forward(request, response);
+            request.getRequestDispatcher("/register.html.jsp").forward(request, response);
 
             return;
         }
@@ -51,7 +51,7 @@ public class RegisterServlet extends HttpServlet {
         } else {
             //注册失败,跳转到登录页面
             request.setAttribute("register_msg", "注册失败，用户名已经存在!");
-            request.getRequestDispatcher("/register.jsp").forward(request, response);
+            request.getRequestDispatcher("/register.html.jsp").forward(request, response);
         }
 
 
