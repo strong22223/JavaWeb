@@ -16,4 +16,3 @@ com\Strong\util\SqlSessionFactoryUtils.class
 com\Strong\util\InitServlet.class
 com\Strong\web\Servlet\RegisterServlet.class
 com\Strong\pojo\Brand.class
-com\Strong\web\Filter\FilterDemo.class

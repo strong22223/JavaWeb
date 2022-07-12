@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>欢迎注册</title>
-    <link href="css/register.css" rel="stylesheet">
+    <link href="../css/register.css" rel="stylesheet">
 </head>
 <body>
 

@@ -59,7 +59,7 @@
 <script>
     document.getElementById("addBrand").onclick = function () {
 
-        location.href = "/xxx/addBrand.jsp";
+        location.href = "addBrand.jsp";
     }
 
 </script>
