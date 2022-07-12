@@ -1,6 +1,8 @@
+com\Strong\web\Servlet\AjaxServlet.class
 com\Strong\mapper\BrandMapper.class
 com\Strong\pojo\User.class
 com\Strong\web\Servlet\CheckCodeServlet.class
+com\Strong\web\Listener\ContextLoaderListener.class
 com\Strong\web\Servlet\deleteByIdServlet.class
 com\Strong\web\Servlet\selectAllServlet.class
 com\Strong\web\Servlet\selectByIdServlet.class
