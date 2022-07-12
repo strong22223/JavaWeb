@@ -2,6 +2,7 @@ package com.Strong.web.Servlet;
 
 import com.Strong.pojo.Brand;
 import com.Strong.service.BrandService;
+import com.alibaba.fastjson.JSON;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,14 +19,27 @@ public class selectAllServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        //1.调用BrandService 完成查询
+//        //1.调用BrandService 完成查询
+//        List<Brand> brands = service.selectAll();
+//
+//        //2.存入到request的数据域中
+//        //request.setAttribute("brands",brands);
+//        //请求转发
+//        request.getRequestDispatcher("/brand.jsp").forward(request,response);
+
+        /**
+         * JSON
+         *
+         */
+        //1.首先调用service方法来获取数据
         List<Brand> brands = service.selectAll();
+        //2.将对象转换为JSON 数据  序列化
+        String jsonString = JSON.toJSONString(brands);
+        //响应数据
+        response.setContentType("text/json;charset=utf-8");
 
-        //2.存入到request的数据域中
-        request.setAttribute("brands",brands);
-
-        //请求转发
-        request.getRequestDispatcher("/brand.jsp").forward(request,response);
+        response.getWriter().write(jsonString);
+        System.out.println("JSON");
     }
 
     @Override
