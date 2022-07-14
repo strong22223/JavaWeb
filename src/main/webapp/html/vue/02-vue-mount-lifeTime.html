@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<a href="addBrand.html"><input type="button" value="新增"></a><br>
+<a href="../addBrand.html"><input type="button" value="新增"></a><br>
 <hr>
 <div id="app">
 
@@ -19,42 +19,22 @@
             <th>状态</th>
             <th>操作</th>
         </tr>
-        <tr align="center" v-for="(brand,i) in brands">
+        <tr v-for="(brand,i) in brands">
             <td>{{i + 1}}</td>
             <td>{{ brand.brandName}}</td>
             <td>{{ brand.companyName}}</td>
-            <td>{{brand.orderd}}</td>
+            <td>{{ brand.orderd }}</td>
             <td>{{brand.description}}</td>
             <td>{{brand.status}}</td>
             <td><a href="#">修改</a> <a href="#">删除</a></td>
         </tr>
 
-        <!--        <tr align="center">-->
-        <!--            <td>2</td>-->
-        <!--            <td>优衣库</td>-->
-        <!--            <td>优衣库</td>-->
-        <!--            <td>10</td>-->
-        <!--            <td>优衣库，服适人生</td>-->
-        <!--            <td>禁用</td>-->
 
-        <!--            <td><a href="#">修改</a> <a href="#">删除</a></td>-->
-        <!--        </tr>-->
-
-        <!--        <tr align="center">-->
-        <!--            <td>3</td>-->
-        <!--            <td>小米</td>-->
-        <!--            <td>小米科技有限公司</td>-->
-        <!--            <td>1000</td>-->
-        <!--            <td>为发烧而生</td>-->
-        <!--            <td>启用</td>-->
-
-        <td><a href="#">修改</a> <a href="#">删除</a></td>
-        </tr>
     </table>
 
 </div>
 
-<script src="../js/axios-0.18.0.js"></script>
+<script src="../../js/axios-0.18.0.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
 <script>
@@ -108,7 +88,6 @@
         data() {
             return {
                 brands: []
-
             }
         },
         mounted: function () {
