@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-bind</title>
+</head>
+<!--v-bin的元素的属性/-->
+<style>
+    .active {
+        border: 1px solid #ff0066;
+    }
+</style>
+
+<body>
+<div id="app">
+    <img alt="" v-bind:src="imgSrc">
+    <br>
+    <img :class="isActive?'active':' '" :src="imgSrc" :title="imgTitle+'!!!'" @click="toggleActive" alt="">
+
+    <img :class="{active:isActive}" :src="imgSrc" :title="imgTitle+'!!!'" @click="toggleActive" alt="">
+
+</div>
+
+
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    let app = new Vue({
+        el: "#app",
+        data: {
+            imgSrc: "https://www.itheima.com/images/logo.png",
+            imgTitle: "王大锤",
+            isActive: false,
+
+        },
+        methods: {
+            toggleActive: function () {
+                this.isActive = !this.isActive;
+            }
+        }
+
+    })
+</script>
+</body>
+</html>
