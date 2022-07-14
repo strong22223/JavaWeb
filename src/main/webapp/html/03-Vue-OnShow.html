@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <img height="500" src="https://pic4.zhimg.com/v2-be9be054c1a8ce247f826c78df001823_r.jpg" v-show="this.isShow"
+         width="500">
+    <img src="https://pic4.zhimg.com/v2-be9be054c1a8ce247f826c78df001823_r.jpg"
+         v-show="this.age>18">
+    <input @click="changeIsShow" type="button" value="点击切换图片是否加载">
+    <input @click="addAge" type="button" value="增减年龄
+">
+
+
+</div>
+
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+
+    let app = new Vue({
+        el: "#app",
+        data: {
+            isShow: true,
+            age: 17
+        },
+        methods: {
+
+            //切换显示标志
+            changeIsShow: function () {
+                this.isShow = !this.isShow;
+            },
+            //增加年龄
+            addAge: function () {
+                this.age++;
+            }
+
+        }
+
+    })
+
+</script>
+
+</body>
+</html>

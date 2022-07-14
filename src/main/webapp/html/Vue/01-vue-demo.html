@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+
+    <input v-model="username">
+    {{username}}
+
+
+</div>
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+<script>
+    //创建Vue核心对象
+    new Vue({
+        el: "#app",
+        //data的简化写法
+        data() {
+            return {
+                username: ""
+            }
+        }
+        // data: function () {
+        //     return {
+        //         username: ""
+        //     }
+        // }
+    })
+
+</script>
+</body>
+</html>
