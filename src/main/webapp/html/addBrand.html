@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加品牌</title>
+</head>
+<body>
+
+
+<h3>添加品牌</h3>
+<form id="addForm">
+    品牌名称：<input name="brandName"><br>
+    企业名称：<input name="companyName"><br>
+    排序：<input name="ordered"><br>
+    描述信息：<textarea cols="20" name="description" rows="5"></textarea><br>
+    状态：
+    <input name="status" type="radio" value="0">禁用
+    <input name="status" type="radio" value="1">启用<br>
+
+    <input type="submit" value="提交">
+</form>
+
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+
+<script>
+
+    let form = new Vue({
+        el: "#addFrom",
+        data() {
+            return {
+                form: {},
+            }
+        },
+        methods: {
+            submitForm: function () {
+                let _this = this;
+
+                axios({
+                    method: "post",
+                    url: "http://localhost:8080/xxx/addBrandServlet",
+                    data: _this.form,
+                }).then(function (respo) {
+
+                })
+            }
+        }
+    })
+
+</script>
+
+</body>
+</html>
+

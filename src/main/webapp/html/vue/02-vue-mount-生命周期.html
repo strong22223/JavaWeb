@@ -19,13 +19,13 @@
             <th>状态</th>
             <th>操作</th>
         </tr>
-        <tr align="center">
-            <td>1</td>
-            <td>三只松鼠</td>
-            <td>三只松鼠</td>
-            <td>100</td>
-            <td>三只松鼠，好吃不上火</td>
-            <td>启用</td>
+        <tr align="center" v-for="(brand,i) in brands">
+            <td>{{i + 1}}</td>
+            <td>{{ brand.brandName}}</td>
+            <td>{{ brand.companyName}}</td>
+            <td>{{brand.orderd}}</td>
+            <td>{{brand.description}}</td>
+            <td>{{brand.status}}</td>
             <td><a href="#">修改</a> <a href="#">删除</a></td>
         </tr>
 
@@ -106,9 +106,21 @@
     let app = new Vue({
         el: "#app",
         data() {
+            return {
+                brands: []
 
+            }
+        },
+        mounted: function () {
+            //家完成加载页面之后,发送ajax请求
+            let _this = this;
+            axios({
+                method: "get",
+                url: "http://localhost:8080/xxx/selectAllServlet"
+            }).then(function (resp) {
+                _this.brands = resp.data;
+            })
         }
-
     })
 
 
