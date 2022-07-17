@@ -1,7 +1,7 @@
-package com.Strong.web.Servlet;
+package tem;
 
 import com.Strong.pojo.Brand;
-import com.Strong.service.BrandService;
+import com.Strong.service.impl.BrandServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet(value = "/updateServlet")
 public class updateServlet extends HttpServlet {
-    private BrandService service = new BrandService();
+    private BrandServiceImpl service = new BrandServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
