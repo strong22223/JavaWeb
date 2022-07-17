@@ -7,18 +7,32 @@ import com.alibaba.fastjson.JSON;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet(value = "/addBrandServlet")
-public class AddBrandServlet extends HttpServlet {
-    BrandService brandService = new BrandServiceImpl();
+@WebServlet(value = "/brandServlet/*")
+public class BrandServlet extends BaseServlet {
+    private final BrandService brandService = new BrandServiceImpl();
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    public void selectAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("111");
+        //获取数据
+        List<Brand> brands = brandService.selectAll();
+
+        //准换为JSON
+        String json = JSON.toJSONString(brands);
+        //设置响应的中文字符
+        response.setContentType("text/json;charset=utf-8");
+        //发送数据
+        response.getWriter().write(json);
+
+    }
+
+    public void addBrand(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //获取数据
         BufferedReader reader = request.getReader();
         String param = reader.readLine();
@@ -31,8 +45,5 @@ public class AddBrandServlet extends HttpServlet {
         response.getWriter().write("success");
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.doGet(request, response);
-    }
+
 }

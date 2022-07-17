@@ -1,10 +1,12 @@
 com\Strong\mapper\BrandMapper.class
 com\Strong\pojo\User.class
+com\Strong\web\Servlet\BrandServlet.class
+com\Strong\web\Servlet\old\SelectAllServlet.class
 com\Strong\web\Listener\ContextLoaderListener.class
 com\Strong\service\impl\BrandServiceImpl.class
-com\Strong\web\Servlet\AddBrandServlet.class
+com\Strong\web\Servlet\BaseServlet.class
 com\Strong\mapper\UserMapper.class
-com\Strong\web\Servlet\SelectAllServlet.class
+com\Strong\web\Servlet\old\AddBrandServlet.class
 com\Strong\service\UserService.class
 com\Strong\service\BrandService.class
 com\Strong\util\SqlSessionFactoryUtils.class
