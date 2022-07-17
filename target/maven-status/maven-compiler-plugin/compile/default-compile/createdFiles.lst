@@ -3,6 +3,7 @@ com\Strong\pojo\User.class
 com\Strong\web\Servlet\BrandServlet.class
 com\Strong\web\Servlet\old\SelectAllServlet.class
 com\Strong\web\Listener\ContextLoaderListener.class
+com\Strong\pojo\PageBean.class
 com\Strong\service\impl\BrandServiceImpl.class
 com\Strong\web\Servlet\BaseServlet.class
 com\Strong\mapper\UserMapper.class

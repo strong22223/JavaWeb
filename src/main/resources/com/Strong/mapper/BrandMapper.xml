@@ -2,6 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.Strong.mapper.BrandMapper">
     <!--使用resultMap解决数据库 和 java 属性名称不匹配的方式-->
     <resultMap id="brandResultMap" type="Brand">
@@ -12,5 +13,16 @@
 
     </resultMap>
 
+
+    <!--
+            根据复选康所选的Id来进行删除
+    -->
+    <delete id="deleteByIds">
+        delete
+        from tb_brand where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

@@ -44,7 +44,7 @@
     <!--批量删除的额按钮-->
     <el-row>
 
-        <el-button plain round type="danger">批量删除</el-button>
+        <el-button @click="deleteByIds" plain round type="danger">批量删除</el-button>
         <el-button @click="dialogVisible = true" plain round type="primary">新增</el-button>
     </el-row>
 
@@ -137,10 +137,10 @@
     <div class="block">
 
         <el-pagination
-                :current-page="currentPage "
-                :page-size="5"
+                :current-page="currentPage"
+                :page-size="pageSize"
                 :page-sizes="[5, 10, 15, 20]"
-                :total="400"
+                :total="totalSize"
                 @current-change="handleCurrentChange"
                 @size-change="handleSizeChange"
                 layout="total, sizes, prev, pager, next, jumper">
@@ -166,19 +166,92 @@
             this.LoadSelectAll();
         }
         , methods: {
-
-
-            //加载,查询所有的数据
+            //加载,查询分页数据数据
             LoadSelectAll() {
                 //当前页面加载完毕之后,发送异步请求
+                // let _this = this;
+                //
+                // axios({
+                //     method: "get",
+                //     url: "http://localhost:8080/xxx/brandServlet/selectAll"
+                // }).then(function (resp) {
+                //     _this.tableData = resp.data;
+                // })
+
                 let _this = this;
 
                 axios({
                     method: "get",
-                    url: "http://localhost:8080/xxx/brandServlet/selectAll"
+                    url: "http://localhost:8080/xxx/brandServlet/selectByPageSize?currentPage=" + _this.currentPage + "&pageSize=" + _this.pageSize,
+
                 }).then(function (resp) {
-                    _this.tableData = resp.data;
+                    _this.tableData = resp.data.pageSizeDate;//{pageSizeDate:[],pageSize:2}
+                    _this.totalSize = resp.data.totalSize;
                 })
+            },
+
+            //批量删除的事件
+            deleteByIds() {
+                if (this.multipleSelection.length == 0) {
+                    alert("未选中");
+                } else {
+
+                    // console.log(this.multipleSelection);
+                    //获取的是这样的数据
+                    /* [
+                         {
+                             "brandName": "格力",
+                             "companyName": "格力电器股份有限公司",
+                             "description": "让世界爱上中国造",
+                             "id": 3,
+                             "ordered": 30,
+                             "status": 1
+                         }
+                     ]*/
+                    //1.在删除之前提示用户是否真的删除
+                    this.$confirm('此操作将删除该数据, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        //确认的时间
+                        //2.遍历multipleSelectio的数组,获取id的数组
+
+                        let len = this.multipleSelection.length;
+                        for (let i = 0; i < len; i++) {
+                            let selectionElement = this.multipleSelection[i];
+                            this.deleteByIdsDate[i] = selectionElement.id;
+                        }
+                        // console.log(this.brand);
+                        let _this = this;
+                        axios({
+                            method: "post",
+                            url: "http://localhost:8080/xxx/brandServlet/deleteByIds",
+                            data: _this.deleteByIdsDate
+                        }).then(function (resp) {
+                            if (resp.data == "success") {
+                                //添加成功
+
+                                //2.窗口显示成功的信息
+                                //添加成功的提示
+
+                                _this.$message({
+                                    message: '恭喜你，删除成功',
+                                    type: 'success'
+                                });
+
+                                //2.刷新所有的数据
+                                _this.LoadSelectAll();
+                            }
+                        })
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    });
+                }
+
             },
 
 
@@ -228,9 +301,15 @@
             },
             //分页工具条
             handleSizeChange(val) {
+                this.pageSize = val;
+
+                this.LoadSelectAll();
                 console.log(`每页 ${val} 条`);
             },
             handleCurrentChange(val) {
+                this.currentPage = val;
+
+                this.LoadSelectAll();
                 console.log(`当前页: ${val}`);
             }
         },
@@ -252,31 +331,16 @@
                 },
                 //复选框选中
                 multipleSelection: [],
+                //复选框的id的数据模型
+                deleteByIdsDate: [],
                 //表格大额数=数据
-                tableData: [{
-                    brandName: '华为',
-                    companyName: '王小虎',
-                    ordered: '200',
-                    status: '1',
-                }, {
-                    brandName: '华为',
-                    companyName: '王小虎',
-                    ordered: '200',
-                    status: '1',
-                }, {
-                    brandName: '华为',
-                    companyName: '王小虎',
-                    ordered: '200',
-                    status: '1',
-                }, {
-                    brandName: '华为',
-                    companyName: '王小虎',
-                    ordered: '200',
-                    status: '2',
-                },],
+                tableData: [],
                 //分页工具条 的数据
-                currentPage: 4
-
+                currentPage: 1,
+                //pagesize
+                pageSize: 5,
+                //所有数据的个数
+                totalSize: 100,
             }
 
         },

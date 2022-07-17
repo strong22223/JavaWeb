@@ -16,16 +16,13 @@ public class BaseServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //获取请求路径
         String uri = req.getRequestURI();//xxx/brand=demo/selectAll
-        System.out.println(uri);
         int index = uri.lastIndexOf('/');
         //获取最后的方法名,截取的字段,就是访问的方法名称
         //并且通过反射的机制获取对应类的方法对象
         String methodName = uri.substring(index + 1);
-        System.out.println(methodName);
 
         //获取调用该Servlet类的对象
         Class<? extends BaseServlet> cls = this.getClass();
-        System.out.println(this);
 
 
         //获取方法对象
