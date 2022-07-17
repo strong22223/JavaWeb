@@ -1,7 +1,7 @@
-package com.Strong.web.Servlet;
+package tem;
 
 import com.Strong.pojo.Brand;
-import com.Strong.service.BrandService;
+import com.Strong.service.impl.BrandServiceImpl;
 import com.alibaba.fastjson.JSON;
 
 import javax.servlet.ServletException;
@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(value = "/selectAllServlet")
+@WebServlet(value = "/selectAllServlet11")
 public class selectAllServlet extends HttpServlet {
-    private BrandService service = new BrandService();
+    private BrandServiceImpl service = new BrandServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

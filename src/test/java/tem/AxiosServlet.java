@@ -1,28 +1,30 @@
-package com.Strong.web.Servlet;
+package tem;
 
-import com.Strong.util.CheckCodeUtil;
+import com.Strong.util.InitServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
-@WebServlet(value = "/checkCodeServlet")
-public class CheckCodeServlet extends HttpServlet {
+@WebServlet(value = "/axiosServlet")
+public class AxiosServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        OutputStream outputStream = response.getOutputStream();
+        InitServlet.initGetPost(request, response);
 
+        //1.接受请求参数
+        String username = request.getParameter("username");
+        username = new String(username.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+        System.out.println(username);
 
-        String a = CheckCodeUtil.outputVerifyImage(200, 50, outputStream, 4);
-        //jsp文件中的验证码使用
-        HttpSession session = request.getSession();
-        session.setAttribute("checkCodeGen", a);
+        //2.响应数据
+        response.getWriter().write("Hello Axios");
+
     }
 
     @Override
