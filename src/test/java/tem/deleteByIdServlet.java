@@ -1,6 +1,6 @@
-package com.Strong.web.Servlet;
+package tem;
 
-import com.Strong.service.UserService;
+import com.Strong.service.impl.BrandServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,22 +9,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/checkUserRegisterServlet")
-public class CheckUserRegisterServlet extends HttpServlet {
-    private UserService service = new UserService();
+@WebServlet(value = "/deleteByIdServlet")
+public class deleteByIdServlet extends HttpServlet {
+    private BrandServiceImpl service = new BrandServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //1.接受用户
-        String username = request.getParameter("username");
-        //2.查询用户是否存在呢
-        boolean register = service.register(username);
-        //3.不为空
+        //接收id
+        String id = request.getParameter("id");
+
+        //删除数据
+        service.deleteById(Integer.parseInt(id));
 
 
-        response.getWriter().write("" + register);
+        request.getRequestDispatcher("/delete.jsp").forward(request,response);
 
-        //3.做出响应
+
     }
 
     @Override

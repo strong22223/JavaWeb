@@ -1,6 +1,7 @@
-package com.Strong.web.Servlet;
+package tem;
 
-import com.Strong.util.InitServlet;
+import com.Strong.pojo.Brand;
+import com.Strong.service.impl.BrandServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,22 +9,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
-@WebServlet(value = "/axiosServlet")
-public class AxiosServlet extends HttpServlet {
+@WebServlet(value = "/selectByIdServlet")
+public class selectByIdServlet extends HttpServlet {
+    private BrandServiceImpl service = new BrandServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        InitServlet.initGetPost(request, response);
+        //接收id
+        String id = request.getParameter("id");
 
-        //1.接受请求参数
-        String username = request.getParameter("username");
-        username = new String(username.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
-        System.out.println(username);
+        //查询数据
+        Brand brand = service.selectById(Integer.parseInt(id));
 
-        //2.响应数据
-        response.getWriter().write("Hello Axios");
+        request .setAttribute("brand" ,brand);
+
+        request.getRequestDispatcher("/update.jsp").forward(request,response);
+
 
     }
 

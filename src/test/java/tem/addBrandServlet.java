@@ -1,7 +1,7 @@
-package com.Strong.web.Servlet;
+package tem;
 
 import com.Strong.pojo.Brand;
-import com.Strong.service.BrandService;
+import com.Strong.service.impl.BrandServiceImpl;
 import com.alibaba.fastjson.JSON;
 
 import javax.servlet.ServletException;
@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @WebServlet(value = "/addBrandServlet")
 public class addBrandServlet extends HttpServlet {
-    private BrandService service = new BrandService();
+    private BrandServiceImpl service = new BrandServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
