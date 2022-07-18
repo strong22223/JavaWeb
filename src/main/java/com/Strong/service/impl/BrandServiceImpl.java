@@ -2,6 +2,7 @@ package com.Strong.service.impl;
 
 import com.Strong.mapper.BrandMapper;
 import com.Strong.pojo.Brand;
+import com.Strong.pojo.PageBean;
 import com.Strong.service.BrandService;
 import com.Strong.util.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
@@ -41,6 +42,7 @@ public class BrandServiceImpl implements BrandService {
         //关闭资源
         sqlSession.close();
     }
+
 
     /**
      * 根据id查询
@@ -89,5 +91,47 @@ public class BrandServiceImpl implements BrandService {
         sqlSession.close();
     }
 
+    @Override
+    public void deleteByIds(int[] ids) {
+        //1.获取sqlSession
+        SqlSession sqlSession = factory.openSession();
+        //2.获取BrandMapper
+        BrandMapper mapper = sqlSession.getMapper(BrandMapper.class);
+        //3.调用方法
+        mapper.deleteByIds(ids);
+        //成功的时间提交事物
+        sqlSession.commit();
+        //关闭资源
+        sqlSession.close();
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public PageBean<Brand> selectByPageSize(int currentPage, int pageSize) {
+        //调用BrandMapper.selectAll()的方法
+        //1.获取sqlSession,使用工具类
+        SqlSession sqlSession = factory.openSession();
+        //2.获取BrandMapper
+        BrandMapper mapper = sqlSession.getMapper(BrandMapper.class);
+
+        //3.调用方法
+        List<Brand> brandsByPageSize = mapper.selectByPage((currentPage - 1) * pageSize, pageSize);
+        long totalNum = mapper.selectTotalNum();
+
+        //4.封装数据
+        PageBean<Brand> brandPageBean = new PageBean<>();
+        brandPageBean.setTotalSize(totalNum);
+        brandPageBean.setPageSizeDate(brandsByPageSize);
+        System.out.println(brandPageBean);
+        //4.关闭资源
+        sqlSession.close();
+        return brandPageBean;
+    }
 
 }
