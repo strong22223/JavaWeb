@@ -47,7 +47,7 @@
 
     </select>
 
-    <select id="selectTotalNumConditio" resultMap="brandResultMap">
+    <select id="selectTotalNumCondition" resultMap="brandResultMap">
         select count(*) from tb_brand from
 
         <where>

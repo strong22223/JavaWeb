@@ -92,5 +92,5 @@ public interface BrandMapper {
      *
      * @return
      */
-    long selectTotalNumConditio(@Param("brand") Brand brand);
+    long selectTotalNumCondition(@Param("brand") Brand brand);
 }

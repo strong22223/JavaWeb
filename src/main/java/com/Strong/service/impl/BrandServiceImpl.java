@@ -144,28 +144,28 @@ public class BrandServiceImpl implements BrandService {
         //3.设置数据
         //查询开始的数据
         int begin = (currentPage - 1) * pageSize;
-        //pageSize
+        //pageSize  size=pageSize
 
         //模糊查询的设置
         String brandName = brand.getBrandName();
         if (brandName != null && brandName.length() != 0) {
-            brandName = "%" + brandName + "%";
+            brand.setBrandName("%" + brandName + "%");
         }
 
-        brandName = brand.getCompanyName();
-        if (brandName != null && brandName.length() != 0) {
-            brandName = "%" + brandName + "%";
+        String companyName = brand.getCompanyName();
+        if (companyName != null && companyName.length() != 0) {
+            brand.setCompanyName("%" + companyName + "%");
         }
 
 
         //3.调用方法
-        List<Brand> brandsByPageSize = mapper.selectByPageAccordingCondition(begin, pageSize, brand);
-        long totalNum = mapper.selectTotalNum();
+        List<Brand> brandsDates = mapper.selectByPageAccordingCondition(begin, pageSize, brand);
+        long totalNum = mapper.selectTotalNumCondition(brand);
 
         //4.封装数据
         PageBean<Brand> brandPageBean = new PageBean<>();
         brandPageBean.setTotalSize(totalNum);
-        brandPageBean.setPageSizeDate(brandsByPageSize);
+        brandPageBean.setPageSizeDate(brandsDates);
         System.out.println(brandPageBean);
         //4.关闭资源
         sqlSession.close();
