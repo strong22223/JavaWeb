@@ -134,4 +134,42 @@ public class BrandServiceImpl implements BrandService {
         return brandPageBean;
     }
 
+    @Override
+    public PageBean<Brand> selectByPageAccordingCondition(int currentPage, int pageSize, Brand brand) {
+        //调用BrandMapper.selectAll()的方法
+        //1.获取sqlSession,使用工具类
+        SqlSession sqlSession = factory.openSession();
+        //2.获取BrandMapper
+        BrandMapper mapper = sqlSession.getMapper(BrandMapper.class);
+        //3.设置数据
+        //查询开始的数据
+        int begin = (currentPage - 1) * pageSize;
+        //pageSize
+
+        //模糊查询的设置
+        String brandName = brand.getBrandName();
+        if (brandName != null && brandName.length() != 0) {
+            brandName = "%" + brandName + "%";
+        }
+
+        brandName = brand.getCompanyName();
+        if (brandName != null && brandName.length() != 0) {
+            brandName = "%" + brandName + "%";
+        }
+
+
+        //3.调用方法
+        List<Brand> brandsByPageSize = mapper.selectByPageAccordingCondition(begin, pageSize, brand);
+        long totalNum = mapper.selectTotalNum();
+
+        //4.封装数据
+        PageBean<Brand> brandPageBean = new PageBean<>();
+        brandPageBean.setTotalSize(totalNum);
+        brandPageBean.setPageSizeDate(brandsByPageSize);
+        System.out.println(brandPageBean);
+        //4.关闭资源
+        sqlSession.close();
+        return brandPageBean;
+    }
+
 }
