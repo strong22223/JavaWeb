@@ -36,10 +36,10 @@ DE 配置文件-->
             </el-select>
         </el-form-item>
 
-        <el-form-item label="企业名称">
-            <el-input placeholder="企业名称" v-model="brand.brandName"></el-input>
+        <el-form-item label="品牌名称">
+            <el-input placeholder="品牌名称" v-model="brand.brandName"></el-input>
         </el-form-item>
-        <el-form-item label="审批人">
+        <el-form-item label="企业名称">
             <el-input placeholder="企业名称" v-model="brand.companyName"></el-input>
         </el-form-item>
         <el-form-item>
@@ -288,9 +288,20 @@ DE 配置文件-->
                 })
 
             },
-            //查询数据
+            //查询数据,分页查询
             onSubmit() {
                 console.log(this.brand);
+                let _this = this;
+
+                axios({
+                    method: "post",
+                    url: "http://localhost:8080/xxx/brandServlet/selectByPageAccordingCondition?currentPage=" + _this.currentPage + "&pageSize=" + _this.pageSize,
+                    data: _this.brand
+                }).then(function (resp) {
+                    _this.tableData = resp.data.pageSizeDate;//{pageSizeDate:[],pageSize:2}
+                    _this.totalSize = resp.data.totalSize;
+                })
+
             },
             tableRowClassName: function ({row, rowIndex}) {
                 if (rowIndex === 1) {
@@ -322,6 +333,9 @@ DE 配置文件-->
 
         data() {
             return {
+                //查询保单的数据
+
+
                 //增的表单的数据
 
                 //添加数据框是否展示的标记,初始值为false

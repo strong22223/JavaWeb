@@ -17,25 +17,16 @@ public class Brand {
     private String description;
     // 状态：0：禁用  1：启用
     private Integer status;
+    private String statusChinese;
 
-
-    public Brand() {
-    }
-
-    public Brand(Integer id, String brandName, String companyName, String description) {
-        this.id = id;
-        this.brandName = brandName;
-        this.companyName = companyName;
-        this.description = description;
-    }
-
-    public Brand(Integer id, String brandName, String companyName, Integer ordered, String description, Integer status) {
+    public Brand(Integer id, String brandName, String companyName, Integer ordered, String description, Integer status, String statusChinese) {
         this.id = id;
         this.brandName = brandName;
         this.companyName = companyName;
         this.ordered = ordered;
         this.description = description;
         this.status = status;
+        this.statusChinese = statusChinese;
     }
 
     public Integer getId() {
@@ -86,15 +77,11 @@ public class Brand {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "Brand{" +
-                "id=" + id +
-                ", brandName='" + brandName + '\'' +
-                ", companyName='" + companyName + '\'' +
-                ", ordered=" + ordered +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                '}';
+    public String getStatusChinese() {
+        return statusChinese;
+    }
+
+    public void setStatusChinese(String statusChinese) {
+        this.statusChinese = statusChinese;
     }
 }
