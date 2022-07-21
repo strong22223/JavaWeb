@@ -74,4 +74,23 @@ public interface BrandMapper {
      */
     @Select("select count(*) from tb_brand")
     long selectTotalNum();
+
+
+    /**
+     * 按照当前页,和每页查询的数据来查询
+     *
+     * @param brand
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
+
+    List<Brand> selectByPageAccordingCondition(@Param("begin") int begin, @Param("pageSize") int pageSize, @Param("brand") Brand brand);
+
+    /**
+     * 查询出所有数据的数量
+     *
+     * @return
+     */
+    long selectTotalNumCondition(@Param("brand") Brand brand);
 }

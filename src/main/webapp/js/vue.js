@@ -1,5 +1,5 @@
 /*!
- * Vue.js v2.7.5
+ * Vue.js v2.7.7
  * (c) 2014-2022 Evan You
  * Released under the MIT License.
  */
@@ -2486,7 +2486,9 @@
         var parentVnode = (vm.$vnode = options._parentVnode); // the placeholder node in parent tree
         var renderContext = parentVnode && parentVnode.context;
         vm.$slots = resolveSlots(options._renderChildren, renderContext);
-        vm.$scopedSlots = emptyObject;
+        vm.$scopedSlots = parentVnode
+            ? normalizeScopedSlots(vm.$parent, parentVnode.data.scopedSlots, vm.$slots)
+            : emptyObject;
         // bind the createElement fn to this instance
         // so that we get proper render context inside it.
         // args order: tag, data, children, normalizationType, alwaysNormalize
@@ -2526,7 +2528,7 @@
         Vue.prototype._render = function () {
             var vm = this;
             var _a = vm.$options, render = _a.render, _parentVnode = _a._parentVnode;
-            if (_parentVnode) {
+            if (_parentVnode && vm._isMounted) {
                 vm.$scopedSlots = normalizeScopedSlots(vm.$parent, _parentVnode.data.scopedSlots, vm.$slots, vm.$scopedSlots);
                 if (vm._slotsProxy) {
                     syncSetupSlots(vm._slotsProxy, vm.$scopedSlots);
@@ -3205,6 +3207,15 @@
             };
         }
     }
+    var sortCompareFn = function (a, b) {
+        if (a.post) {
+            if (!b.post)
+                return 1;
+        } else if (b.post) {
+            return -1;
+        }
+        return a.id - b.id;
+    };
 
     /**
      * Flush both queues and run the watchers.
@@ -3221,9 +3232,7 @@
         //    user watchers are created before the render watcher)
         // 3. If a component is destroyed during a parent component's watcher run,
         //    its watchers can be skipped.
-        queue.sort(function (a, b) {
-            return a.id - b.id;
-        });
+        queue.sort(sortCompareFn);
         // do not cache length because more watchers might be pushed
         // as we run existing watchers
         for (index$1 = 0; index$1 < queue.length; index$1++) {
@@ -3503,7 +3512,7 @@
         if (flush === 'sync') {
             watcher.update = watcher.run;
         } else if (flush === 'post') {
-            watcher.id = Infinity;
+            watcher.post = true;
             watcher.update = function () {
                 return queueWatcher(watcher);
             };
@@ -3659,18 +3668,23 @@
                 warn$2("provide() can only be used inside setup().");
             }
         } else {
-            var provides = currentInstance._provided;
-            // by default an instance inherits its parent's provides object
-            // but when it needs to provide values of its own, it creates its
-            // own provides object using parent provides object as prototype.
-            // this way in `inject` we can simply look up injections from direct
-            // parent and let the prototype chain do the work.
-            var parentProvides = currentInstance.$parent && currentInstance.$parent._provided;
-            if (parentProvides === provides) {
-                provides = currentInstance._provided = Object.create(parentProvides);
-            }
             // TS doesn't allow symbol as index type
-            provides[key] = value;
+            resolveProvided(currentInstance)[key] = value;
+        }
+    }
+
+    function resolveProvided(vm) {
+        // by default an instance inherits its parent's provides object
+        // but when it needs to provide values of its own, it creates its
+        // own provides object using parent provides object as prototype.
+        // this way in `inject` we can simply look up injections from direct
+        // parent and let the prototype chain do the work.
+        var existing = vm._provided;
+        var parentProvides = vm.$parent && vm.$parent._provided;
+        if (parentProvides === existing) {
+            return (vm._provided = Object.create(parentProvides));
+        } else {
+            return existing;
         }
     }
 
@@ -4046,7 +4060,7 @@
     /**
      * Note: also update dist/vue.runtime.mjs when adding new exports to this file.
      */
-    var version = '2.7.5';
+    var version = '2.7.7';
 
     /**
      * @internal type is manually declared in <root>/types/v3-define-component.d.ts
@@ -4188,6 +4202,7 @@
             this.cb = cb;
             this.id = ++uid$1; // uid for batching
             this.active = true;
+            this.post = false;
             this.dirty = this.lazy; // for lazy watchers
             this.deps = [];
             this.newDeps = [];
@@ -4655,12 +4670,14 @@
             if (!isObject(provided)) {
                 return;
             }
+            var source = resolveProvided(vm);
+            // IE9 doesn't support Object.getOwnPropertyDescriptors so we have to
+            // iterate the keys ourselves.
             var keys = hasSymbol ? Reflect.ownKeys(provided) : Object.keys(provided);
-            setCurrentInstance(vm);
             for (var i = 0; i < keys.length; i++) {
-                provide(keys[i], provided[keys[i]]);
+                var key = keys[i];
+                Object.defineProperty(source, key, Object.getOwnPropertyDescriptor(provided, key));
             }
-            setCurrentInstance();
         }
     }
 
@@ -11161,7 +11178,8 @@
                 code = genComponent(el.component, el, state);
             } else {
                 var data = void 0;
-                if (!el.plain || (el.pre && state.maybeComponent(el))) {
+                var maybeComponent = state.maybeComponent(el);
+                if (!el.plain || (el.pre && maybeComponent)) {
                     data = genData(el, state);
                 }
                 var tag
@@ -11169,7 +11187,7 @@
                     = void 0;
                 // check if this is a component in <script setup>
                 var bindings = state.options.bindings;
-                if (bindings && bindings.__isScriptSetup !== false) {
+                if (maybeComponent && bindings && bindings.__isScriptSetup !== false) {
                     tag =
                         checkBindingType(bindings, el.tag) ||
                         checkBindingType(bindings, camelize(el.tag)) ||
