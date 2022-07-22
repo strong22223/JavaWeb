@@ -166,7 +166,8 @@ public class BrandServiceImpl implements BrandService {
         PageBean<Brand> brandPageBean = new PageBean<>();
         brandPageBean.setTotalSize(totalNum);
         brandPageBean.setPageSizeDate(brandsDates);
-        System.out.println(brandPageBean);
+        //输出测试
+        System.out.println(brandPageBean + "11111");
         //4.关闭资源
         sqlSession.close();
         return brandPageBean;

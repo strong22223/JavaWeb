@@ -5,6 +5,7 @@ import com.Strong.pojo.PageBean;
 import com.Strong.service.BrandService;
 import com.Strong.service.impl.BrandServiceImpl;
 import com.alibaba.fastjson.JSON;
+import org.junit.Test;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -82,6 +83,14 @@ public class BrandServlet extends BaseServlet {
 //        System.out.println("DELETE");
     }
 
+    /**
+     * 分页查询
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     public void selectByPageSize(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //获取数据,依据ajax一步请求来发送数据,并且在使用get的方式来发送
         int currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -100,5 +109,43 @@ public class BrandServlet extends BaseServlet {
         response.getWriter().write(json);
 
     }
+
+    /**
+     * 分页条件查询
+     *
+     * @param request
+     * @param response HttpServletRequest request, HttpServletResponse response
+     * @throws ServletException
+     * @throws IOException
+     */
+
+    @Test
+    public void selectByPageAccordingCondition(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //获取数据,依据ajax一步请求来发送数据,并且在使用get的方式来发送
+        int currentPage = Integer.parseInt(request.getParameter("currentPage"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        //获取查询brand对象,使用ajax请求发送
+        //转换字符集
+        request.setCharacterEncoding("utf-8");
+        BufferedReader reader = request.getReader();
+        String sBrand = reader.readLine();
+        //创建模拟数据
+        Brand brand = JSON.parseObject(sBrand, Brand.class);//转为brand对象提供给
+//
+
+
+        //2.调用service方法
+        PageBean<Brand> pageBean = brandService.selectByPageAccordingCondition(currentPage, pageSize, brand);
+        System.out.println(pageBean);
+        //准换为JSON
+        String json = JSON.toJSONString(pageBean);
+        System.out.println(";'''" + json);
+        //设置响应的中文字符
+        response.setContentType("text/json;charset=utf-8");
+//        //发送数据
+        response.getWriter().write(json);
+
+    }
+
 
 }

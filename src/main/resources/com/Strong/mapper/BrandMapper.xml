@@ -31,38 +31,36 @@
 
         <where>
             <if test="brand.brandName!=null and brand.brandName !=''">
-                and brand_name like #{brandName}
+                and brand_name like #{brand.brandName}
             </if>
 
             <if test="brand.companyName!=null and brand.companyName !=''">
-                and company_name like #{companyName}
+                and company_name like #{brand.companyName}
             </if>
 
             <if test="brand.status!=null ">
-                and status = #{status}
+                and status = #{brand.status}
             </if>
 
-            limit #{begin},#{pageSize}
         </where>
-
+        limit #{begin},#{pageSize}
     </select>
 
-    <select id="selectTotalNumCondition" resultMap="brandResultMap">
-        select count(*) from tb_brand from
+    <select id="selectTotalNumCondition" resultType="java.lang.Integer">
+        select count(*) from tb_brand
 
         <where>
-            <if test="brand.brandName!=null and brandName !=''">
-                and brand_name like #{brandName}
+            <if test="brand.brandName!=null and brand.brandName !=''">
+                and brand_name like #{brand.brandName}
             </if>
 
-            <if test="companyName!=null and companyName !=''">
-                and company_name like #{companyName}
+            <if test="brand.companyName!=null and brand.companyName !=''">
+                and company_name like #{brand.companyName}
             </if>
 
-            <if test="status!=null ">
-                and status = #{status}
+            <if test="brand.status!=null ">
+                and status = #{brand.status}
             </if>
-
 
         </where>
     </select>
